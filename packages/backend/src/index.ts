@@ -7,6 +7,7 @@ import "./queue/log.worker";
 import dotenv from "dotenv";
 import { queryRoute } from "./routes/query.route";
 import { streamRoute } from "./routes/stream.route";
+import { startSloMonitor } from "./services/sloMonitor";
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ const start = async () => {
     await checkConnection();
     await migrate();
     await app.listen({ port: Number(PORT) });
+    startSloMonitor();
     console.log(`Server listening on port ${PORT}`);
   } catch (err) {
     console.error("Error starting server:", err);
