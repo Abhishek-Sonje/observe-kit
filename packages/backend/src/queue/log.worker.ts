@@ -1,5 +1,6 @@
 import { Worker } from "bullmq";
 import { client } from "../db/clickhouse";
+import { logEmitter } from "../events/logEvents";
 
 export const LogWorker = new Worker(
   "logs",
@@ -17,6 +18,7 @@ export const LogWorker = new Worker(
     console.log(
       `Successfully inserted ${job.data.logs.length} logs into ClickHouse`,
     );
+    logEmitter.emit("logs:new", job.data.logs);
   },
   {
     connection: {

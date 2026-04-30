@@ -6,6 +6,7 @@ import { logRoute } from "./routes/log.route";
 import "./queue/log.worker";
 import dotenv from "dotenv";
 import { queryRoute } from "./routes/query.route";
+import { streamRoute } from "./routes/stream.route";
 
 dotenv.config();
 
@@ -16,10 +17,13 @@ const PORT = process.env.PORT || 3000;
 
 app.register(fastifyCors, {
   origin: "*",
+  methods: ["GET", "POST"],
+  credentials: true,
 });
 
 app.register(logRoute);
 app.register(queryRoute);
+app.register(streamRoute);
 
 app.get("/", async (req, res) => {
   res.send({ message: "Hello, ObserveKit!" });

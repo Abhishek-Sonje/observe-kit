@@ -1,6 +1,8 @@
 "use client";
 
+import { useLiveTail } from "@/hooks/useLiveTail";
 import { Log } from "@observe-kit/common";
+import { useMemo, useState } from "react";
 
 export default function LogTable({
   data,
@@ -11,9 +13,28 @@ export default function LogTable({
   isLoading: boolean;
   error: Error | null;
 }) {
+  const [isLive, setIsLive] = useState(false);
+
+  const liveLogs = useLiveTail(isLive);
+  const liveData = useMemo(() => {
+    if (!isLive) return data;
+
+    const liveIds = new Set(liveLogs.map((log) => log.id));
+    const filteredData = data.filter((log) => !liveIds.has(log.id));
+    return [...filteredData, ...liveLogs ]
+ }, [isLive, data, liveLogs]);
   return (
-    <div>
+    <>
       <div>LogTable</div>
+      <div>
+        <button onClick={() => setIsLive((prev) => !prev)}>
+          {isLive ? "Stop Live" : "Start Live"}
+        </button>
+      </div>
+      <div>
+        <button onClick={() => alert("Download CSV")}>Download CSV</button>
+      </div>
+
       {isLoading && <div>Loading...</div>}
       {error && <div>Error: {error.message}</div>}
       {!isLoading && !error && (
@@ -27,7 +48,7 @@ export default function LogTable({
             </tr>
           </thead>
           <tbody>
-            {data.map((log) => (
+            {liveData.map((log) => (
               <tr key={log.id}>
                 <td className="py-2">{log.timestamp}</td>
                 <td className="py-2">{log.service_name}</td>
@@ -38,6 +59,6 @@ export default function LogTable({
           </tbody>
         </table>
       )}
-    </div>
+    </>
   );
 }
