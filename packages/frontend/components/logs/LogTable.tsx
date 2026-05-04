@@ -17,10 +17,11 @@ export default function LogTable({
 
   const liveLogs = useLiveTail(isLive);
   const liveData = useMemo(() => {
-    if (!isLive) return data;
+    const safeData = data ?? []; 
+    if (!isLive) return safeData;
 
     const liveIds = new Set(liveLogs.map((log) => log.id));
-    const filteredData = data.filter((log) => !liveIds.has(log.id));
+    const filteredData = safeData.filter((log)   => !liveIds.has(log.id));
     return [...filteredData, ...liveLogs ]
  }, [isLive, data, liveLogs]);
   return (

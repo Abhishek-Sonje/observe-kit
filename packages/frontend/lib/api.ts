@@ -1,8 +1,11 @@
 import { Log } from "@observe-kit/common";
 
-export async function getLogs(filters: string): Promise<Log[]> {
+export async function getLogs(
+  filters: string,
+  fetchFn: typeof fetch = fetch,
+): Promise<Log[]> {
   try {
-    const result = await fetch(
+    const result = await fetchFn(
       process.env.NEXT_PUBLIC_API_URL + "/v1/logs?" + filters,
     );
     return result.json();
@@ -12,9 +15,12 @@ export async function getLogs(filters: string): Promise<Log[]> {
   }
 }
 
-export async function getLogsByTrace(traceId: string): Promise<Log[]> {
+export async function getLogsByTrace(
+  traceId: string,
+  fetchFn: typeof fetch = fetch,
+): Promise<Log[]> {
   try {
-    const result = await fetch(
+    const result = await fetchFn(
       process.env.NEXT_PUBLIC_API_URL + "/v1/logs/trace/" + traceId,
     );
     return result.json();
@@ -24,12 +30,25 @@ export async function getLogsByTrace(traceId: string): Promise<Log[]> {
   }
 }
 
-export async function getServices(): Promise<string[]> {
+export async function getServices(
+  fetchFn: typeof fetch = fetch,
+): Promise<string[]> {
   try {
-    const result = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/v1/services",
-    );
-    return result.json();
+    const res = await fetchFn(process.env.NEXT_PUBLIC_API_URL + "/v1/services");
+
+    if (!res.ok) {
+      console.error("API Error:", await res.text());
+      return [];
+    }
+
+    const data = await res.json();
+
+    if (!Array.isArray(data)) {
+      console.error("Invalid response format:", data);
+      return [];
+    }
+
+    return data;
   } catch (e) {
     console.error("Error fetching services:", e);
     return [];

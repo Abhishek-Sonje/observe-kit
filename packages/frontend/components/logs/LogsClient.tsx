@@ -7,6 +7,7 @@ import LogTable from "./LogTable";
 
 import type { Log } from "@observe-kit/common";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useApiClient } from "@/hooks/useApiClient";
 
 export default function LogsClient() {
   const searchParams = useSearchParams();
@@ -27,9 +28,10 @@ export default function LogsClient() {
     router.push(`${pathname}?${params.toString()}`);
   };
 
+  const { authFetch } = useApiClient();
   const { data, isLoading, error } = useQuery({
     queryKey: ["logs", service, level, from, to],
-    queryFn: () => getLogs(searchParams.toString()),
+    queryFn: () => getLogs(searchParams.toString(), authFetch),
   });
 
   return (

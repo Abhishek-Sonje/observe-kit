@@ -1,6 +1,7 @@
 import { check } from "zod";
 import { client } from "../db/clickhouse";
 
+
 export function startSloMonitor() {
   const lastAlertTime = new Map<string, number>();
   const ALERT_COOLDOWN = 60 * 60 * 1000; // 1 hour

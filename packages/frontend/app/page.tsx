@@ -1,8 +1,26 @@
 import { getServices } from "@/lib/api";
+import { auth } from "@clerk/nextjs/server";
+
 import Link from "next/link";
 
 export default async function HomePage() {
-  const services = await getServices();
+  const { getToken } = await auth();
+  const token = await getToken({
+    template: "backend"
+  });
+
+  console.log("Auth token:", token);
+  
+  const services = await getServices(async (input, init) => {
+    return fetch(input, {
+      ...init,
+      headers: {
+        ...(init?.headers || {}),
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  });
+  console.log("Fetched services:", services);
 
   return (
     <div>
@@ -16,6 +34,10 @@ export default async function HomePage() {
             </div>
           </Link>
       ))}
+        <button className="bg-green-500 text-white px-4 py-2 rounded-lg mt-4">
+          <Link href="/logs">View All Logs</Link>
+        </button>
+        
       </div>
     </div>
   );

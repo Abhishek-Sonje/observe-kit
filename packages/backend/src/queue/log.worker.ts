@@ -5,10 +5,14 @@ import { logEmitter } from "../events/logEvents";
 export const LogWorker = new Worker(
   "logs",
   async (job) => {
+    const logWithUserId = job.data.logs.map((log: any) => ({
+      ...log,
+      userId: job.data.userId,
+    }));
     try {
       await client.insert({
         table: "logs",
-        values: job.data.logs,
+        values: logWithUserId,
         format: "JSONEachRow",
       });
     } catch (err) {
@@ -18,7 +22,7 @@ export const LogWorker = new Worker(
     console.log(
       `Successfully inserted ${job.data.logs.length} logs into ClickHouse`,
     );
-    logEmitter.emit("logs:new", job.data.logs);
+    logEmitter.emit("logs:new", logWithUserId);
   },
   {
     connection: {

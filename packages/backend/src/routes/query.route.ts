@@ -1,14 +1,18 @@
 import { FastifyInstance } from "fastify";
 import { client } from "../db/clickhouse";
+import { requireAuth } from "../plugin/auth.plugin";
 
 export async function queryRoute(fastify: FastifyInstance) {
+  fastify.addHook("preHandler", requireAuth);
+
   fastify.get("/v1/logs/trace/:trace_id", async (request, reply) => {
     const { trace_id } = request.params as { trace_id: string };
+    const { userId } = request;
     try {
-      const query = `SELECT * FROM logs Where trace_id = {trace_id:String} ORDER BY timestamp ASC`;
+      const query = `SELECT * FROM logs Where trace_id = {trace_id:String} AND user_id = {user_id:String} ORDER BY timestamp ASC`;
       const result = await client.query({
         query,
-        query_params: { trace_id },
+        query_params: { trace_id, user_id: userId },
         format: "JSONEachRow",
       });
       const rows = await result.json();
@@ -20,10 +24,12 @@ export async function queryRoute(fastify: FastifyInstance) {
   });
 
   fastify.get("/v1/services", async (request, reply) => {
+    const { userId } = request;
     try {
-      const query = `SELECT DISTINCT service_name FROM logs`;
+      const query = `SELECT DISTINCT service_name FROM logs WHERE user_id = {user_id:String}`;
       const result = await client.query({
         query,
+        query_params: { user_id: userId },
         format: "JSONEachRow",
       });
       const rows = (await result.json()) as { service_name: string }[];
@@ -40,6 +46,9 @@ export async function queryRoute(fastify: FastifyInstance) {
   fastify.get("/v1/logs", async (request, reply) => {
     const conditions: string[] = [];
     const params: Record<string, any> = {};
+    const { userId } = request;
+    conditions.push("user_id = {user_id:String}");
+    params.user_id = userId;
     try {
       const { service_name, level, start_time, end_time, limit, cursor } =
         request.query as {
