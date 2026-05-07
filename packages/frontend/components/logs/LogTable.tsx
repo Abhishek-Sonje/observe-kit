@@ -12,7 +12,8 @@ export default function LogTable({
   data: Log[];
   isLoading: boolean;
   error: Error | null;
-}) {
+  }) {
+  console.log("LogTable data:", data);
   const [isLive, setIsLive] = useState(false);
 
   const liveLogs = useLiveTail(isLive);

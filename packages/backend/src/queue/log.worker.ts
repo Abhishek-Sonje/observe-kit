@@ -6,28 +6,36 @@ export const LogWorker = new Worker(
   "logs",
   async (job) => {
     const logWithUserId = job.data.logs.map((log: any) => ({
-      ...log,
-      userId: job.data.userId,
+      message: log.message,
+      level: log.level,
+      service_name: log.service_name,
+      version: log.version,
+      trace_id: log.trace_id || "",
+      span_id: log.span_id || "",
+      user_id: job.data.userId,
+      timestamp: new Date().toISOString().slice(0, 23).replace("T", " "),
     }));
     try {
-      await client.insert({
+      const result = await client.insert({
         table: "logs",
         values: logWithUserId,
         format: "JSONEachRow",
       });
+
+      console.log("Insert result:", result);
+      console.log(`Inserted ${logWithUserId.length} logs`);
     } catch (err) {
-      console.error("Error inserting logs into ClickHouse:", err);
-      throw err;
+      console.error("❌ Insert failed:", err);
     }
-    console.log(
-      `Successfully inserted ${job.data.logs.length} logs into ClickHouse`,
-    );
+
     logEmitter.emit("logs:new", logWithUserId);
   },
   {
     connection: {
-      host: process.env.REDIS_HOST || "localhost",
-      port: Number(process.env.REDIS_PORT) || 6379,
+      host: process.env.REDIS_HOST,
+      port: Number(process.env.REDIS_PORT),
+      password: process.env.REDIS_PASSWORD,
+      tls: process.env.REDIS_TLS === "true" ? {} : undefined,
     },
   },
 );

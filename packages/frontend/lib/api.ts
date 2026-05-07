@@ -54,3 +54,59 @@ export async function getServices(
     return [];
   }
 }
+
+export async function getApiKeys(fetchFn: typeof fetch = fetch) {
+  try {
+    const res = await fetchFn(process.env.NEXT_PUBLIC_API_URL + "/v1/api-keys");
+    if (!res.ok) {
+      throw new Error(`API Error: ${await res.text()}`);
+    }
+    const data = await res.json();
+    return data.apiKeys || [];
+  } catch (e) {
+    console.error("Error fetching api keys:", e);
+    return [];
+  }
+}
+
+export async function createApiKey(
+  name: string,
+  fetchFn: typeof fetch = fetch,
+) {
+  try {
+    const res = await fetchFn(
+      process.env.NEXT_PUBLIC_API_URL + "/v1/api-keys",
+      {
+        method: "POST",
+        body: JSON.stringify({ name }),
+      },
+    );
+
+    if (!res.ok) {
+      throw new Error(`API Error: ${await res.text()}`);
+    }
+
+    const data = await res.json();
+    return data.apiKey;
+  } catch (e) {
+    console.error("Error creating api key:", e);
+    return null;
+  }
+}
+
+export async function revokeApiKey(id: string, fetchFn: typeof fetch = fetch) {
+  try {
+    const res = await fetchFn(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/api-keys/${id}`,
+      {
+        method: "DELETE",
+      },
+    );
+
+    if (!res.ok) {
+      throw new Error(`API Error: ${await res.text()}`);
+    }
+  } catch (e) {
+    console.error("Error revoking api key:", e);
+  }
+}

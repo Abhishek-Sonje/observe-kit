@@ -1,7 +1,7 @@
-import { PgTable } from "drizzle-orm/pg-core";
+import { PgTableWithColumns } from "drizzle-orm/pg-core";
 import { pgTable, text, timestamp, boolean, uuid } from "drizzle-orm/pg-core";
 
-export const apiKeys = pgTable("api_keys", {
+export const apiKeys:PgTableWithColumns<any> = pgTable("api_keys", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: text("user_id").notNull(),
   keyHash: text("key_hash").notNull().unique(),

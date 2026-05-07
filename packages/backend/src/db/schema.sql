@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS logs (
     id UUID DEFAULT generateUUIDv4(),
+    user_id String,
     message String,
     timestamp DateTime64(3),
     level LowCardinality(String),

@@ -13,7 +13,7 @@ export async function logRoute(fastify: FastifyInstance) {
       if (!data.success) {
         return reply
           .status(400)
-          .send({ error: "Invalid log data", details: data.error.errors });
+          .send({ error: "Invalid log data", details: data.error.issues });
       }
       await logQueue.add("ingest", { logs: data.data, userId: request.userId });
       return reply.status(202).send({ message: "Logs accepted" });

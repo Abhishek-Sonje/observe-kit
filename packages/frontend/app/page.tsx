@@ -9,7 +9,7 @@ export default async function HomePage() {
     template: "backend"
   });
 
-  console.log("Auth token:", token);
+  console.log("Auth token for backend:", token);
   
   const services = await getServices(async (input, init) => {
     return fetch(input, {
