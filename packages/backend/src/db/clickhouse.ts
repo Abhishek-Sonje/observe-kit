@@ -8,9 +8,30 @@ export const client = createClient({
 });
 
 export async function checkConnection() {
-  const result = await client.ping();
-  if (!result.success) {
-    throw new Error(`ClickHouse connection failed: ${result.error}`);
+  const maxAttempts = 10;
+  const retryDelayMs = 2000;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      const result = await client.ping();
+      if (result.success) {
+        console.log("Connected to ClickHouse ✅");
+        return;
+      }
+      throw new Error(
+        `ClickHouse ping returned unsuccessful result: ${result.error}`,
+      );
+    } catch (error) {
+      if (attempt === maxAttempts) {
+        throw new Error(
+          `ClickHouse connection failed after ${maxAttempts} attempts: ${String(error)}`,
+        );
+      }
+
+      console.warn(
+        `ClickHouse not ready yet (attempt ${attempt}/${maxAttempts}), retrying...`,
+      );
+      await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
+    }
   }
-  console.log("Connected to ClickHouse ✅");
 }

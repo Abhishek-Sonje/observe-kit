@@ -2,6 +2,8 @@ import { Worker } from "bullmq";
 import { client } from "../db/clickhouse";
 import { logEmitter } from "../events/logEvents";
 
+const redisPort = Number(process.env.REDIS_PORT || 6379);
+
 export const LogWorker = new Worker(
   "logs",
   async (job) => {
@@ -33,7 +35,7 @@ export const LogWorker = new Worker(
   {
     connection: {
       host: process.env.REDIS_HOST,
-      port: Number(process.env.REDIS_PORT),
+      port: redisPort,
       password: process.env.REDIS_PASSWORD,
       tls: process.env.REDIS_TLS === "true" ? {} : undefined,
     },

@@ -32,7 +32,7 @@ app.register(clerkPlugin, {
 
 app.register(fastifyCors, {
   origin: "http://localhost:3001",
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "DELETE"],
   credentials: true,
 });
 app.get("/health", async () => ({ status: "ok", timestamp: Date.now() }));
@@ -51,7 +51,7 @@ const start = async () => {
   try {
     await checkConnection();
     await migrate();
-    await app.listen({ port: Number(PORT) , host: '0.0.0.0'});
+    await app.listen({ port: Number(PORT), host: "0.0.0.0" });
     startSloMonitor();
     console.log(`Server listening on port ${PORT}`);
   } catch (err) {

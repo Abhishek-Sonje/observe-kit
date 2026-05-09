@@ -1,8 +1,8 @@
-import { SignIn } from "@clerk/nextjs";
+import { SignUp } from "@clerk/nextjs";
 import Link from "next/link";
 import { Layers } from "lucide-react";
 
-export default function SignInPage() {
+export default function SignUpPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#faf9f8] p-6 texture-noise">
       <Link href="/" className="flex items-center gap-3 mb-12 group">
@@ -13,7 +13,7 @@ export default function SignInPage() {
       </Link>
       
       <div className="w-full max-w-md">
-        <SignIn 
+        <SignUp 
           appearance={{
             elements: {
               rootBox: "w-full",
