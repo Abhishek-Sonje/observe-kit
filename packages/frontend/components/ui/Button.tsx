@@ -16,7 +16,7 @@ export const Button = ({
   const variantStyles = {
     primary: "btn-primary",
     secondary: "btn-secondary",
-    ghost: "bg-transparent hover:bg-surface-container text-on-surface",
+    ghost: "bg-transparent hover:bg-surface-container",
   };
   const sizeStyles = {
     sm: "px-3 py-1.5 text-xs",

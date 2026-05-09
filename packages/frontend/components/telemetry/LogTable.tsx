@@ -2,7 +2,7 @@ import React from "react";
 import { Badge } from "@/components/ui/Badge";
 import { Log } from "@/types";
 import Link from "next/link";
-import { ChevronRight, Activity, Terminal } from "lucide-react";
+import { ChevronRight, Activity, Terminal, ArrowUpRight } from "lucide-react";
 
 interface LogTableProps {
   logs: Log[];
@@ -44,10 +44,12 @@ export const LogTable = ({ logs, isLoading }: LogTableProps) => {
             </div>
           </div>
         ) : (
-          logs.map((log) => (
+          logs.map((log, index) => (
             <div 
               key={log.id} 
-              className="flex gap-4 py-3.5 px-6 hover:bg-surface-container-low/50 transition-all group items-center"
+              className={`flex gap-4 py-3.5 px-6 transition-all duration-1000 group items-center ${
+                index === 0 && !isLoading ? "animate-[highlight_2s_ease-out_forwards]" : "hover:bg-surface-container-low/50"
+              }`}
             >
               <span className="font-mono text-[11px] text-on-surface-variant/50 whitespace-nowrap w-24">
                 {new Date(log.timestamp).toLocaleTimeString([], { hour12: false })}
@@ -72,10 +74,10 @@ export const LogTable = ({ logs, isLoading }: LogTableProps) => {
                 {log.trace_id ? (
                   <Link 
                     href={`/trace/${log.trace_id}`}
-                    className="flex items-center gap-2 px-3 py-1 bg-surface-container rounded-md hover:bg-primary hover:text-on-primary transition-all group/trace"
+                    className="flex items-center gap-1.5 px-3 py-1 bg-surface-container rounded-md hover:bg-primary text-primary hover:text-on-primary transition-all group/trace font-bold shadow-sm"
                   >
                     <span className="text-[10px] font-mono truncate max-w-[80px]">{log.trace_id}</span>
-                    <ChevronRight size={12} className="group-hover/trace:translate-x-0.5 transition-transform" />
+                    <ArrowUpRight size={12} className="group-hover/trace:translate-x-0.5 group-hover/trace:-translate-y-0.5 transition-transform" />
                   </Link>
                 ) : (
                   <span className="text-[10px] font-mono text-on-surface-variant/20">—</span>

@@ -27,6 +27,7 @@ export default function DashboardPage() {
     queryFn: () => getServices(authenticatedFetch),
   });
 
+
   return (
     <div className="px-10 py-12">
       <header className="flex justify-between items-end mb-16">

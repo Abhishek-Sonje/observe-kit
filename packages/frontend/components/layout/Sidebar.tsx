@@ -42,17 +42,6 @@ export default function Sidebar() {
         </Link>
       </div>
 
-      {/* GLOBAL SEARCH */}
-      <div className="px-6 mb-6">
-        <div className="relative group">
-          <Activity size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40 group-focus-within:text-primary transition-colors" />
-          <input 
-            type="text" 
-            placeholder="Quick Search (⌘K)" 
-            className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl pl-10 pr-4 h-11 text-xs font-bold uppercase tracking-widest outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all"
-          />
-        </div>
-      </div>
 
       {/* PRIMARY NAVIGATION */}
       <nav className="flex-1 px-6 space-y-2 overflow-y-auto">

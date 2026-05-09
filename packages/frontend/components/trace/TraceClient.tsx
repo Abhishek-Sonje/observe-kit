@@ -7,10 +7,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/Badge";
 import { ChevronLeft, Clock, Activity, ArrowRight, Server } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Log } from "@/types";
 
 export default function TraceClient({ traceId }: { traceId: string }) {
   const { getToken } = useAuth();
+  const router = useRouter();
 
   const authenticatedFetch = async (input: RequestInfo | URL, init?: RequestInit) => {
     const token = await getToken({ template: "backend" });
@@ -47,13 +49,13 @@ export default function TraceClient({ traceId }: { traceId: string }) {
     <div className="px-10 py-12">
       {/* HEADER */}
       <div className="mb-16">
-        <Link 
-          href="/logs" 
-          className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/40 hover:text-primary transition-colors mb-8"
+        <button 
+          onClick={() => router.back()}
+          className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/40 hover:text-primary transition-colors mb-8 cursor-pointer"
         >
           <ChevronLeft size={14} />
           Back to Explorer
-        </Link>
+        </button>
         
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
           <div>
@@ -93,7 +95,7 @@ export default function TraceClient({ traceId }: { traceId: string }) {
                   {/* Timeline Dot */}
                   <div className="absolute left-[35px] top-[22px] h-2 w-2 rounded-full bg-outline-variant group-hover:bg-primary transition-colors z-10" />
                   
-                  <div className="card p-6 bg-white hover:bg-surface-container-low/30 transition-all border-outline-variant/30 relative overflow-hidden">
+                  <div className="card p-6 bg-white hover:bg-surface-container-low/30 hover:border-primary/50 transition-all border-outline-variant/30 relative overflow-hidden group/card">
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex items-center gap-3">
                         <Badge variant={log.level === "error" ? "error" : log.level === "warn" ? "warning" : "default"}>

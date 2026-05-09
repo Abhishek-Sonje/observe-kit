@@ -18,22 +18,35 @@ export default function Navigation() {
       </Link>
 
       <div className="flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6 mr-4">
+          <Link href="/docs" className="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
+            Documentation
+          </Link>
+          <Link href="/demo" className="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
+            Live Demo
+          </Link>
+          <a href="https://github.com/Abhishek-Sonje/observe-kit" target="_blank" rel="noreferrer" className="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A4.8 4.8 0 0 0 8 18v4"></path></svg>
+            GitHub
+          </a>
+        </div>
+
         {!isSignedIn ? (
           <>
             <SignInButton mode="modal">
-              <button className="text-sm font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
+              <button className="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
                 Sign In
               </button>
             </SignInButton>
             <Link href="/sign-up">
-              <Button size="md" className="h-11 px-8 rounded-none font-bold uppercase tracking-widest">
-                Deploy Now
+              <Button size="md" className="h-11 px-8 rounded-none font-bold uppercase tracking-widest text-[11px]">
+                Start for Free
               </Button>
             </Link>
           </>
         ) : (
           <Link href="/dashboard">
-            <Button size="md" className="h-11 px-8 rounded-none font-bold uppercase tracking-widest">
+            <Button size="md" className="h-11 px-8 rounded-none font-bold uppercase tracking-widest text-[11px]">
               Enter Workspace
             </Button>
           </Link>
