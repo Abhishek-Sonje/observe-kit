@@ -14,12 +14,12 @@ export async function checkConnection() {
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     try {
       const result = await client.ping();
-      if (result.success) {
+      if (result.success === true) {
         console.log("Connected to ClickHouse ✅");
         return;
       }
       throw new Error(
-        `ClickHouse ping returned unsuccessful result: ${result.error}`,
+        `ClickHouse ping returned unsuccessful result`,
       );
     } catch (error) {
       if (attempt === maxAttempts) {
