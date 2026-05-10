@@ -31,7 +31,7 @@ app.register(clerkPlugin, {
 });
 
 app.register(fastifyCors, {
-  origin: "http://localhost:3001",
+  origin: process.env.FRONTEND_URL,
   methods: ["GET", "POST", "DELETE"],
   credentials: true,
 });

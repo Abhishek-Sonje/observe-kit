@@ -29,7 +29,7 @@ export async function requireAuthSSE(
 
     const verifiedToken = await verifyToken(token, {
       secretKey: process.env.CLERK_SECRET_KEY,
-      authorizedParties: ["http://localhost:3001"],
+      authorizedParties: [process.env.FRONTEND_URL || "http://localhost:3001"],
     });
 
     if (!verifiedToken.sub) {

@@ -10,7 +10,7 @@ export function streamRoute(fastify: FastifyInstance) {
       try {
         reply.raw.setHeader(
           "Access-Control-Allow-Origin",
-          "http://localhost:3001",
+          process.env.FRONTEND_URL || "http://localhost:3001",
         );
         reply.raw.setHeader("Access-Control-Allow-Credentials", "true");
         reply.raw.setHeader("Content-Type", "text/event-stream");

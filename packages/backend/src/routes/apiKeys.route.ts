@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { requireAuth } from "../plugin/auth.plugin";
 import { getAuth } from "@clerk/fastify";
-import { createApiKey } from "../services/apiKey.service.ts";
+import { createApiKey } from "../services/apiKey.service";
 import { db } from "../db/postgres";
 import { apiKeys } from "../db/schema";
 import { and, eq } from "drizzle-orm";
@@ -13,12 +13,14 @@ export async function apiKeysRoute(fastify: FastifyInstance) {
     "/v1/api-keys",
     async (request: FastifyRequest, reply: FastifyReply) => {
       const { name } = request.body as { name: string };
-    
+
       if (!name) {
         return reply.status(400).send({ error: "Name is required" });
       }
       if (!request.userId) {
-        return reply.status(401).send({ error: "Unauthorized -- userID required" });
+        return reply
+          .status(401)
+          .send({ error: "Unauthorized -- userID required" });
       }
       const apiKey = await createApiKey(request.userId, name);
       return reply.status(201).send({ apiKey });
