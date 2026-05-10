@@ -172,57 +172,7 @@ export function ApiKeyManager() {
         </div>
       )}
 
-      {/* IMPLEMENTATION GUIDE */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-8">
-        <div className="space-y-6">
-          <h3 className="text-label-caps text-primary/40 tracking-[0.3em]">
-            SDK Integration
-          </h3>
-          <p className="text-sm text-on-surface-variant leading-relaxed">
-            Initialize the ObserveKit client in your application using your
-            secure ingestion token to start streaming logs and traces.
-          </p>
-          <div className="flex flex-col gap-3">
-            {[
-              "Support for Node.js, Python, and Go",
-              "Automatic trace context propagation",
-              "Batch processing with retry logic",
-            ].map((feature, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-3 text-xs font-medium text-on-surface"
-              >
-                <CheckCircle2 size={14} className="text-success" />
-                {feature}
-              </div>
-            ))}
-          </div>
-        </div>
 
-        <div className="card p-8 bg-[#1e1e2e] border-none shadow-xl shadow-black/5 relative overflow-hidden group">
-          <div className="absolute top-4 right-4 text-[10px] font-mono text-white/20 uppercase tracking-widest">
-            typescript
-          </div>
-          <pre className="text-[13px] font-mono text-white/80 leading-relaxed overflow-x-auto">
-            {`import { ObserveKit } from '@observe-kit/sdk';
-
-const kit = new ObserveKit({
-  apiKey: 'YOUR_SECURE_KEY',
-  serviceName: 'auth-service'
-});
-
-kit.log('User signed in', { userId: '123' });`}
-          </pre>
-          <div className="mt-8 pt-6 border-t border-white/5 flex justify-between items-center">
-            <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">
-              Install SDK
-            </span>
-            <code className="text-xs text-primary-container font-bold">
-              npm install @observe-kit/sdk
-            </code>
-          </div>
-        </div>
-      </section>
 
       {/* KEY LIST */}
       <div className="card overflow-hidden border-outline-variant/30 bg-white">

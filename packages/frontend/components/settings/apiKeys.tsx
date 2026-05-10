@@ -50,7 +50,7 @@ export default function ApiKeys() {
         onClick={async () => {
           const newKey = await createApiKey(newApiKeyName, authFetch);
           if (newKey) {
-            setKey(newKey);
+            setKey(newKey.apiKey);
             await queryClient.invalidateQueries({ queryKey: ["apiKeys"] });
             setNewApiKeyName("");
           }

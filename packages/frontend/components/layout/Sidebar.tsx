@@ -21,7 +21,6 @@ import { SignOutButton } from "@clerk/nextjs";
 const navItems = [
   { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
   { name: "Explorer", href: "/logs", icon: Terminal },
-  { name: "Infrastructure", href: "/infrastructure", icon: Server },
   { name: "Alerts", href: "/alerts", icon: Bell },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
@@ -84,7 +83,6 @@ export default function Sidebar() {
         <div className="bg-white border border-outline-variant/30 rounded-3xl p-4 shadow-sm group hover:border-primary/20 transition-all">
           <div className="flex items-center gap-4 mb-4">
             <UserButton 
-              afterSignOutUrl="/" 
               appearance={{
                 elements: {
                   userButtonAvatarBox: "h-10 w-10 rounded-xl"

@@ -161,14 +161,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* =========================
-   Typography
-========================= */
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  color: var(--on-surface);
-  letter-spacing: -0.02em;
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--on-surface);
+    letter-spacing: -0.02em;
+  }
 }
 
 h1 {
