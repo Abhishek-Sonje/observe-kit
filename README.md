@@ -4,10 +4,6 @@ Structured log ingestion and trace correlation for Node.js services.
 
 ObserveKit collects application logs through an API, processes them with Redis-backed workers and stores events in ClickHouse. A Next.js dashboard lets you filter logs and follow a request across services using a shared trace ID.
 
-## Preview
-
-![ObserveKit dashboard preview](packages/frontend/public/dashboard-preview.png)
-
 ## What it does
 
 - Accepts validated log batches through an API-key-protected ingestion endpoint.
